@@ -1,0 +1,51 @@
+🔥 FLAMES Game Web AppAn interactive web-based version of the popular FLAMES game, built entirely in Python using the Streamlit framework.🛠️ FeaturesDynamic Input: Accepts two names and automatically processes them for character matching.Efficient Algorithm: Uses list slicing and modulo arithmetic to accurately simulate the circular elimination of the letters F-L-A-M-E-S.Clean UI: A minimalist dark-themed interface with real-time feedback.🚀 How to RunClone the repository:Bashgit clone https://github.com/yourusername/flames-streamlit.git
+Install requirements:
+Bashpip install streamlit
+Launch the app:
+Bashstreamlit run flamesgame.py
+📜 Game LogicThe app follows the traditional rules:
+Removes common characters between the two names.
+Calculates the remaining count ($n$).
+Iteratively eliminates letters from "FLAMES" using the count $n$ until only one remains.
+HERE IT IS THE CODE:
+import streamlit as st
+st.title("🔥 FLAMES Game")
+a_input = st.text_input("enter first name")
+b_input = st.text_input("enter Second name")
+
+if st.button("get results"):
+    if a_input and b_input:
+        
+        a = list(a_input.lower().replace(" ", ""))
+        b = list(b_input.lower().replace(" ", ""))
+
+      
+        for i in a[:]: 
+            if i in b:
+                a.remove(i)
+                b.remove(i)
+
+        n = len(a + b)
+        s = ["f", "l", "a", "m", "e", "s"]
+
+     
+        while len(s) > 1:
+            split_index = (n % len(s)) - 1
+            if split_index >= 0:
+                s = s[split_index + 1:] + s[:split_index]
+            else:
+                s.pop()
+
+        d = {
+            'f':'Friends',
+            'l':'Lovers',
+            'a':'Affection',
+            'm':'Marriage',
+            'e':'Enemies',
+            's':'Siblings'
+        }
+        
+      
+        st.success(f"The result is: **{d[s[0]]}**")
+    else:
+        st.error("Please enter both names first!")
